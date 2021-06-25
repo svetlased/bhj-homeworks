@@ -4,7 +4,7 @@ const ourTimer = function() {
 }
 
 setInterval(ourTimer, 100);
-if (Number.parseInt(timer.textContent) === 0) {
+if (parseInt(timer.textContent) === 0) {
     clearInterval(ourTimer);
     alert("Вы победили в конкурсе!");
 }
