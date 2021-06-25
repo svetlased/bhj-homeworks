@@ -4,7 +4,7 @@ let countWin = document.getElementById("dead");
 let maxCountTotal = 9;
 
 for(let i = 0; i < holes.length; i++) {
-    holes[i].onClick = function(){
+    holes[i].onclick = function(){
         if (this.classList == "hole hole_has-mole") {
             countWin++;
         } else {
