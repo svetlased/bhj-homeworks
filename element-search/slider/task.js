@@ -1,10 +1,9 @@
 let activeItem = document.querySelectorAll(".slider__item_active")
 
-
 function slideRight(){
     this.className = "slider__item";
     if (this.nextSibling) {
-        this.nextSibling.className = "slider__item slider__item_active";
+        this.nextSibling.className.toggle("slider__item_active");
     } else {
         document.querySelector("slider__item") = "slider__item slider__item_active";
     } 
@@ -18,5 +17,5 @@ function slideLeft(){
     } 
 }
 
-activeItem.addEventList("click", slideRight);
-activeItem.addEventList("click", slideLeft);
+activeItem.forEach(item => item.addEventList("click", slideRight));
+activeItem.forEach(item => item.addEventList("click", slideLeft));

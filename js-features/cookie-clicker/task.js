@@ -7,5 +7,5 @@ image.onclick = function() {
         image.width -= 20;
     }
     const counter = document.getElementById("clicker__counter");
-    counter.textContent = parseInt(counter.textContent)+1;
+    counter.textContent = parseInt(counter.textContent) + 1;
 }
