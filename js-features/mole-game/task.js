@@ -3,8 +3,8 @@ let countLost = document.getElementById("lost");
 let countWin = document.getElementById("dead");
 let maxCountTotal = 9;
 
-holes.forEach(hole => hole.onclick = function(){
-    if (this.classList == "hole hole_has-mole") {
+holes.forEach(hole => hole.onclick = function(e){
+    if (e.target.classList == "hole hole_has-mole") {
         Number(countWin.textContent) += 1;
     } else {
         Number(countLost.textContent) += 1;

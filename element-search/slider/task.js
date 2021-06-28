@@ -1,21 +1,20 @@
-let activeItem = document.querySelectorAll(".slider__item_active")
-
-function slideRight(){
-    this.className = "slider__item";
-    if (this.nextSibling) {
-        this.nextSibling.className.toggle("slider__item_active");
-    } else {
-        document.querySelector("slider__item") = "slider__item slider__item_active";
-    } 
+window.onload = function() {
+	let count = 0;
+	let items = Array.from(document.querySelectorAll('.slider__item'));
+	document.querySelector('.slider__arrow_next').onclick = function() {
+		count = items.findIndex((item) => {
+            return item.classList.contains('slider__item_active')
+        });
+		items[count].classList.toggle('slider__item_active');
+		count = (count + 1) % items.length;
+		items[count].classList.toggle('slider__item_active');
+	}
+	document.querySelector('.slider__arrow_prev').onclick = function() {
+		count = items.findIndex((item) => {
+            return item.classList.contains('slider__item_active')
+        });
+		items[count].classList.toggle('slider__item_active');
+		count = (count > 0) ? count - 1: items.length - 1;
+		items[count].classList.toggle('slider__item_active');
+	}
 }
-function slideLeft(){
-    this.className = "slider__item";
-    if (this.previousSibling) {
-        this.previousSibling.className ="slider__item slider__item_active";
-    } else {
-        document.querySelectors("slider__items").lastChild = "slider__item slider__item_active";
-    } 
-}
-
-activeItem.forEach(item => item.addEventList("click", slideRight));
-activeItem.forEach(item => item.addEventList("click", slideLeft));
