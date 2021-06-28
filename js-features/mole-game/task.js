@@ -1,19 +1,23 @@
 const holes = document.querySelectorAll("div.hole");
 let countLost = document.getElementById("lost");
 let countWin = document.getElementById("dead");
+let got = 0;
+let missed = 0;
 let maxCountTotal = 9;
 
 holes.forEach(hole => hole.onclick = function(e){
     if (e.target.classList == "hole hole_has-mole") {
-        Number(countWin.textContent) += 1;
+        got++;
+        countWin.textContent = got;
     } else {
-        Number(countLost.textContent) += 1;
-    }
-    if (countLost === maxCountTotal) {
+        missed++;
+        countLost.textContent = missed;
+    } 
+    if(countLost.textContent === maxCountTotal) {
         alert("Вы проиграли!")
         countLost = 0; 
         countWin = 0;
-    } else if (countWin === maxCountTotal) {
+    } else if (countWin.textContent === maxCountTotal) {
         alert("Вы выйграли");
         countLost = 0; 
         countWin = 0;
