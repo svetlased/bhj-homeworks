@@ -1,21 +1,21 @@
-let dropdown = document.getElementsByClassName("dropdown__value").textContent;
-let toMakeActive = document.getElementsByClassName("dropdown__list");
-let toClose = document.getElementsByClassName("dropdown__list dropdown__list_active");
+let dropdown = document.querySelector(".dropdown__value");
+let list = document.querySelector(".dropdown__list");
+let links = document.querySelectorAll(".dropdown__link");
 
-//разворачивание списка
-toMakeActive.addEventListener("click", function(){
-    this.classList.add("dropdown__list_active");
+dropdown.addEventListener("click", function(evt){
+    if (!list.classList.contains('dropdown__list_active')) {
+        list.classList.add('dropdown__list_active');
+        evt.preventDefault();
+    } else {
+        list[0].classList.remove('dropdown__list_active');
+        evt.preventDefault();
+    }
 });
-// функция сворачивания
-function closing() {
-    toClose.classList.remove("dropdown__list_active");
+for (let i = 0; i < links.length; i++) {
+    links[i].addEventListener("click", function(evt){
+        dropdown.textContent = links[i].textContent;
+        list.classList.remove("dropdown__list_active")
+        evt.preventDefault();
+        
+    })
 }
-
-
-toClose.addEventListener("click", closing);
-
-document.querySelector("li.dropdown__item").addEventListener("click", function() {
-    closing;
-    this.textContent = dropdown;
-    this.querySelector("a.dropdown__link").addEventListener("click", preventEvent);
-})
