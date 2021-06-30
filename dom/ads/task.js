@@ -2,7 +2,7 @@
 
 let cases = Array.from(document.getElementsByClassName("rotator__case"));
 let activeCase = document.querySelector(".rotator__case_active")
-let time = cases[0].dataset.speed; //как менять
+
 
 changeStyle();
 

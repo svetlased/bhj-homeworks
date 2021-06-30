@@ -9,6 +9,7 @@ tabs.forEach(function(tab){
             tabsContent[count].classList.remove("tab__content_active");
         } else {
             tab.classList.add("tab_active");
+            document.querySelector('.tab__content_active').classList.remove('tab__content_active');
             tabsContent[count].classList.add("tab__content_active");
         }
 })
