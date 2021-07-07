@@ -4,7 +4,7 @@ let tooltip = document.querySelector(".tooltip");
 for ( let i = 0; i < linkToTip.length; i++) {
     linkToTip[i].addEventListener("click", (event) => {
         event.preventDefault();
-        tooltip.classList.add("tooltip_active");
+        tooltip.classList.contains("tooltip_active") ? tooltip.classList.remove("tooltip_active") : tooltip.classList.add("tooltip_active")
         tooltip.innerText = event.target.title;
         let linkToTipPosit = event.target.getBoundingClientRect();
         let tooltipPosit = tooltip.getBoundingClientRect()

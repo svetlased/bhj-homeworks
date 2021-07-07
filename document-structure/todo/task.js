@@ -4,14 +4,14 @@ let task_input = document.querySelector("#task__input");
 
 task_add.addEventListener("click", (event) =>{
     event.preventDefault();
-    if (task_input.value !== "") {
+    if (task_input.value.trim() !== "") {
         toAdd();
     } 
 })
    
 task_input.addEventListener("keyup", (event) => {
     event.preventDefault();
-    if (task_input.value !== "" && event.key == "enter") {
+    if (task_input.value.trim() !== "" && event.key == "enter") {
         toAdd();
         
     }

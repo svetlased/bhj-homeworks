@@ -19,14 +19,14 @@ function addCartProduct(productId, productImg, productCount) {
 </div>`);
 }
 
-function productMove(productImg){
-    setInterval(move, 10);
-    let clonedImage = productImg.cloneNode(false);
-    let cartPos = productsCart.getBoundingClientRect();
-    function move(){
-        let imagePos = document.querySelectorAll("img.product__image").forEach(image => {
-            let positEach = image.getBoundingClientRect();
-            if (cartPos.top == positEach.top && cartPos.left == positEach.left) {
+function productMove(productImg){   
+    let clonedImage = document.importNode(productImg, false);
+    productImg.insertAdjacentHTML("beforeBegin", clonedImage)
+    let clonedImagePos = clonedImage.getBoundingClientRect();
+
+    function move(clonedImage){
+        let cartPos = productsCart.getBoundingClientRect();
+            if (cartPos.top == clonedImagePos.top && cartPos.left == clonedImagePos.left) {
                 clearInterval(move);
             } else {
                 positEach.top++;
@@ -34,24 +34,25 @@ function productMove(productImg){
                 clonedImage.style.top = positEach.top +"px"
                 clonedImage.style.left =  positEach.left + "px";
             }
-        });
-    }
+        };
+    setInterval(move, 10);
 }
 sendToCart.forEach(sendTo => { sendTo.addEventListener("click", function(){
         let product = sendTo.closest(".product");
         let productId = product.dataset.id;
         let productImg = product.querySelector(".product__image").getAttribute("src");
         let productCount = product.querySelector(".product__quantity-value").innerText;
+        let imageToFly = product.querySelector(".product__image");
         if (productsCart.querySelector(".cart__product")) {
             let item = Array.from(productsCart.querySelectorAll('.cart__product')).find(item => item.dataset.id == productId);
             if (item) {
                 item.querySelector('.cart__product-count').textContent = Number(item.querySelector('.cart__product-count').textContent) + Number(productCount);
             } else {
-                // productMove(productImg);
+                productMove(imageToFly);
                 addCartProduct(productId, productImg, productCount);
             }
         } else {
-            // productMove(productImg);
+            productMove(imageToFly);
             addCartProduct(productId, productImg, productCount);
         }
         
