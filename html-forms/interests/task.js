@@ -24,11 +24,11 @@ let inputInterests = document.querySelectorAll("input.interest__check");
 
 inputInterests.forEach(input => {
     input.addEventListener("click", function(event){
-        if (input.checked && input.closest("li").closest("ul").classList.contains(".interests_active")) {
-            input.closest("li").closest("ul").previousElementSibling.querySelector("interest__check").checked = true;
-        } else if (input.checked && !input.closest("li").closest("ul").classList.contains(".interests_active")) {
-            input.closest("li").querySelectorAll("input").forEach(item => item.checked = true);
-        }
-
-    })
+        input.closest("li").querySelectorAll("input").forEach(item => {
+            event.target.checked ? item.checked = true : item.checked = false});
+    });
+    let checkboxes = document.querySelector("ul.interests_active");
+    if (Array.from(checkboxes.querySelectorAll(".interest__check")).every(item => item.checked)) {
+        document.querySelector("input.interest__check").checked = true;
+    }
 })
