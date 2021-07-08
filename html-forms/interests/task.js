@@ -23,12 +23,35 @@
 let inputInterests = document.querySelectorAll("input.interest__check");
 
 inputInterests.forEach(input => {
-    input.addEventListener("click", function(event){
-        input.closest("li").querySelectorAll("input").forEach(item => {
-            event.target.checked ? item.checked = true : item.checked = false});
-    });
-    let checkboxes = document.querySelector("ul.interests_active");
-    if (Array.from(checkboxes.querySelectorAll(".interest__check")).every(item => item.checked)) {
-        document.querySelector("input.interest__check").checked = true;
+    input.addEventListener("click", event => {
+    if (input.checked && !input.closest("li").closest("ul").classList.contains(".interests_active")) {
+        input.closest("li").querySelectorAll("input").forEach(item => item.checked = true);
+    } else {
+        input.closest("li").querySelectorAll("input").forEach(item => item.checked = false);
     }
+    if (input.closest('li').nextElementSibling === null) {
+        if (!input.closest('li').previousElementSibling.querySelector('input').checked) {
+            input.closest('ul').closest('li').querySelector('input').checked = false;
+            input.closest('ul').closest('li').querySelector('input').indeterminate = true;
+        } else {
+            input.closest('ul').closest('li').querySelector('input').indeterminate = false;
+            input.closest('ul').closest('li').querySelector('input').checked = true;
+        }
+  
+    } else if (input.closest('li').previousElementSibling === null) {
+        if (!input.closest('li').nextElementSibling.querySelector('input').checked) {
+            input.closest('ul').closest('li').querySelector('input').checked = false
+            input.closest('ul').closest('li').querySelector('input').indeterminate = true;
+        } else {
+            input.closest('ul').closest('li').querySelector('input').indeterminate = false
+            input.closest('ul').closest('li').querySelector('input').checked = true
+        }
+      }
+    let ulInputs = Array.from(input.closest('ul').querySelectorAll('input'))
+
+    if (ulInputs.every(item => !item.checked) === true) {
+        input.closest('ul').closest('li').querySelector('input').indeterminate = false;
+        input.closest('ul').closest('li').querySelector('input').checked = false
+    }
+})
 })
