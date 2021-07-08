@@ -20,21 +20,27 @@ function addCartProduct(productId, productImg, productCount) {
 }
 
 function productMove(productImg){   
-    let clonedImage = document.importNode(productImg, false);
-    productImg.insertAdjacentHTML("beforeBegin", clonedImage)
-    let clonedImagePos = clonedImage.getBoundingClientRect();
+    let clonedImage = productImg.cloneNode(false);
+    let parentImg = productImg.closest(".images");
+    let insertedImage = parentImg.insertBefore(clonedImage, productImg);
+    parentImg.style.position = "relative";
+    insertedImage.style.position = "absolute";
 
-    function move(clonedImage){
-        let cartPos = productsCart.getBoundingClientRect();
-            if (cartPos.top == clonedImagePos.top && cartPos.left == clonedImagePos.left) {
-                clearInterval(move);
-            } else {
-                positEach.top++;
-                positEach.left++
-                clonedImage.style.top = positEach.top +"px"
-                clonedImage.style.left =  positEach.left + "px";
-            }
-        };
+    let clonedImagePos = clonedImage.getBoundingClientRect();
+    let cartPos = productsCart.getBoundingClientRect();
+    let posTop = clonedImagePos.top;
+    let posLeft = clonedImagePos.left;
+    function move(){
+        let limit = cartPos.y;
+        if (limit === clonedImagePos.top) {
+            clearInterval(move, 10);
+        } else {
+            posTop = posTop - 20;
+            posLeft = posLeft + 20;
+            clonedImage.style.top = posTop +"px";
+            clonedImage.style.left = posLeft + "px";
+        }
+    };
     setInterval(move, 10);
 }
 sendToCart.forEach(sendTo => { sendTo.addEventListener("click", function(){
@@ -57,7 +63,11 @@ sendToCart.forEach(sendTo => { sendTo.addEventListener("click", function(){
         }
         
     })
+
+   
 })
 
-
+productsCart.addEventListener("click", event => {
+    productsCart.querySelectorAll(".cart__product").forEach(item => item.remove());
+})
 
