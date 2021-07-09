@@ -1,6 +1,6 @@
 let progress = document.getElementById("progress");
 let form = document.getElementById("form");
-progress.value = 0.7;
+progress.value = 0;
 
 
 

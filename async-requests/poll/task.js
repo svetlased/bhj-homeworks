@@ -1,13 +1,13 @@
 let xhr = new XMLHttpRequest();
-let title = document.getElementById("poll__title");
-let answers = document.getElementById("poll__answers");
+const title = document.getElementById("poll__title");
+const answers = document.getElementById("poll__answers");
 
 xhr.open("GET", "https://netology-slow-rest.herokuapp.com/poll.php");
 xhr.send();
 
 
 xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.DONE){
+    if (this.readyState === 4 && this.status === 200){
         let resp = JSON.parse(xhr.responseText);
         let question = resp.data.title;
         let answerPoll = resp.data.answers;   
@@ -23,7 +23,7 @@ xhr.onreadystatechange = function() {
             ${answerPoll[answer]}
             </button>`);
             count++;
-        }
+        };
 
         let buttons = document.querySelectorAll(".poll__answer");
 
@@ -33,22 +33,25 @@ xhr.onreadystatechange = function() {
             let xhrPost = new XMLHttpRequest();
             xhrPost.open("POST", "https://netology-slow-rest.herokuapp.com/poll.php");
             xhrPost.setRequestHeader( 'Content-type', 'application/x-www-form-urlencoded' );
-            xhrPost.send( 'vote=1${idN}&answer=${element.dataset.vote}' );
+            xhrPost.send( 'vote=1${idN}&answer=${button.dataset.vote}');
 
             
             xhrPost.onreadystatechange = function() {
-                if (xhrPost.readyState === 4 && xhr.DONE) {
+                if (xhrPost.readyState === 4 && xhr.status === 200) {
                     let xhrPostAnswers = JSON.parse(xhrPost.responseText).stat;
                     answers.innerHTML = "";
-                    
-                    for (let answer in xhrPostAnswers) {
-                        answers.insertAdjacentHTML('beforeend',
-                            `<div>${xhrPostAnswers[answer].answer}: ${xhrPostAnswers[answer].votes}</div>`
-                        )
-                    }
-                }
-            }
 
-        }));
-}
+                    let sum = 0;
+                    xhrPostAnswers.forEach(answer => {
+                        sum += answer.votes;
+                    });
+
+                    xhrPostAnswers.forEach(answer => {
+                        answers.insertAdjacentHTML('beforeend', 
+                        `<div>${answer.answer}: ${(answer.votes / sum * 100).toFixed(2)}%</div>`);
+                    });
+                }
+        }
+    }));
+    }
 }
