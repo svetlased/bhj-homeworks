@@ -19,24 +19,28 @@ function addCartProduct(productId, productImg, productCount) {
 </div>`);
 }
 
-function productMove(productImg){   
+function productMove(productImg, productId){   
     let clonedImage = productImg.cloneNode(false);
-    let parentImg = productImg.closest(".images");
-    let insertedImage = parentImg.insertBefore(clonedImage, productImg);
-    parentImg.style.position = "relative";
-    insertedImage.style.position = "absolute";
+    document.querySelector('body').appendChild(clonedImage);
+    clonedImage.style.position = "absolute";
 
     let clonedImagePos = clonedImage.getBoundingClientRect();
-    let cartPos = productsCart.getBoundingClientRect();
-    let posTop = clonedImagePos.top;
-    let posLeft = clonedImagePos.left;
+    let productImgPos = productImg.getBoundingClientRect(); // позиция исходного изображения
+    let posTop = productImgPos.top;
+    let posLeft = productImgPos.left;
+    clonedImage.style.top = posTop +"px";
+    clonedImage.style.left = posLeft + "px";
+
+    const targetImage = document.querySelector(`.cart__products .cart__product[data-id='${productId}']`);
+
     function move(){
-        let limit = cartPos.y;
-        if (limit === clonedImagePos.top) {
-            clearInterval(move, 10);
+        let differenceVert = clonedImagePos.top = posTop;
+        let differenceHor = clonedImagePos - posLeft;
+        if (targetImage.getBoundingClientRect().top == clonedImagePos.top) {
+            clearInterval(move);
         } else {
-            posTop = posTop - 20;
-            posLeft = posLeft + 20;
+            posTop = posTop - (differenceVert * 0.05);
+            posLeft = posLeft - (differenceHor * 0.05);
             clonedImage.style.top = posTop +"px";
             clonedImage.style.left = posLeft + "px";
         }
@@ -54,12 +58,12 @@ sendToCart.forEach(sendTo => { sendTo.addEventListener("click", function(){
             if (item) {
                 item.querySelector('.cart__product-count').textContent = Number(item.querySelector('.cart__product-count').textContent) + Number(productCount);
             } else {
-                productMove(imageToFly);
                 addCartProduct(productId, productImg, productCount);
+                productMove(imageToFly, productId);
             }
         } else {
-            productMove(imageToFly);
             addCartProduct(productId, productImg, productCount);
+            productMove(imageToFly, productId);
         }
         
     })
