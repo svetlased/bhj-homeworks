@@ -25,23 +25,25 @@ function productMove(productImg, productId){
     clonedImage.style.position = "absolute";
 
     let clonedImagePos = clonedImage.getBoundingClientRect();
-    let productImgPos = productImg.getBoundingClientRect(); // позиция исходного изображения
-    let posTop = productImgPos.top;
-    let posLeft = productImgPos.left;
+    let targetImage = document.querySelector(`.cart__products .cart__product[data-id='${productId}']`);// позиция исходного изображения
+    let posTop = targetImage.top;
+    let posLeft = targetImage.left;
     clonedImage.style.top = posTop +"px";
     clonedImage.style.left = posLeft + "px";
 
-    const targetImage = document.querySelector(`.cart__products .cart__product[data-id='${productId}']`);
+    
 
     function move(){
-        let differenceVert = clonedImagePos.top = posTop;
-        let differenceHor = clonedImagePos - posLeft;
-        if (targetImage.getBoundingClientRect().top == clonedImagePos.top) {
+        let differenceVert = clonedImagePos.top - posTop;
+        let differenceHor = posLeft - clonedImagePos.left;
+
+        if (posTop === clonedImagePos.top) {
+            clonedImage.remove();
             clearInterval(move);
         } else {
             posTop = posTop - (differenceVert * 0.05);
-            posLeft = posLeft - (differenceHor * 0.05);
-            clonedImage.style.top = posTop +"px";
+            posLeft = posLeft + (differenceHor * 0.05);
+            clonedImage.style.top = posTop + "px";
             clonedImage.style.left = posLeft + "px";
         }
     };
