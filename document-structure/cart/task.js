@@ -24,30 +24,31 @@ function productMove(productImg, productId){
     document.querySelector('body').appendChild(clonedImage);
     clonedImage.style.position = "absolute";
 
-    let clonedImagePos = clonedImage.getBoundingClientRect();
-    let targetImage = document.querySelector(`.cart__products .cart__product[data-id='${productId}']`);// позиция исходного изображения
-    let posTop = targetImage.top;
-    let posLeft = targetImage.left;
+    let targetImage = document.querySelector(`.cart__products .cart__product[data-id='${productId}']`);// позиция изображения в корзине
+    let targetPosition = targetImage.getBoundingClientRect();
+    let targetTop = targetPosition.top;
+    let targetLeft = targetPosition.left;
+
+    let productImgPos = clonedImage.getBoundingClientRect(); // позиция исходного изображения
+    let posTop = productImgPos.top;
+    let posLeft = productImgPos.left;
     clonedImage.style.top = posTop +"px";
     clonedImage.style.left = posLeft + "px";
-
     
 
     function move(){
-        let differenceVert = clonedImagePos.top - posTop;
-        let differenceHor = posLeft - clonedImagePos.left;
-
-        if (posTop === clonedImagePos.top) {
+        if (targetTop === posTop){
             clonedImage.remove();
             clearInterval(move);
         } else {
-            posTop = posTop - (differenceVert * 0.05);
-            posLeft = posLeft + (differenceHor * 0.05);
-            clonedImage.style.top = posTop + "px";
-            clonedImage.style.left = posLeft + "px";
+            let stepTop = (posTop - targetTop) * 0.05;
+            let stepLeft = (targetLeft - posLeft) * 0.05;
+    
+            clonedImage.style.top = posTop + stepTop +"px";
+            clonedImage.style.left = posLeft + stepLeft + "px";
         }
     };
-    setInterval(move, 10);
+    setInterval(move, 100);
 }
 sendToCart.forEach(sendTo => { sendTo.addEventListener("click", function(){
         let product = sendTo.closest(".product");
